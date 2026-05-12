@@ -22,7 +22,7 @@ import logging
 from datetime import datetime, timezone
 from contextlib import contextmanager
  
-from config.settings import DB_PATH
+from Personalized_news_summarizer.config.settings import DB_PATH
  
 logger = logging.getLogger(__name__)
  

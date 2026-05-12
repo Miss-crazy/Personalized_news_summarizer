@@ -26,7 +26,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
  
-from config.settings import (
+from Personalized_news_summarizer.config.settings import (
     REQUEST_DELAY_SECONDS,
     REQUEST_HEADERS,
     SCRAPE_TARGETS,

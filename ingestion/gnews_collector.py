@@ -18,7 +18,7 @@ import time
 
 import requests
 
-from config.settings import (
+from Personalized_news_summarizer.config.settings import (
     GNEWS_API_KEY,
     GNEWS_MAX_ARTICLES,
     GNEWS_TOPICS,

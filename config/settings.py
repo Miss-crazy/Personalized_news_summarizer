@@ -104,3 +104,17 @@ CHROMA_COLLECTION  = os.getenv("CHROMA_COLLECTION", "news_clusters")
 RAG_TOP_K           = int(os.getenv("RAG_TOP_K", 5))
 # Minimum cosine similarity score to include a result (0–1).
 RAG_SCORE_THRESHOLD = float(os.getenv("RAG_SCORE_THRESHOLD", 0.0))
+
+# ── Personalization (Phase 4) ────────────────────────────────
+# Blend factor: 0.0 = pure semantic, 1.0 = pure preference
+PERSONALIZATION_ALPHA  = float(os.getenv("PERSONALIZATION_ALPHA", 0.3))
+
+# Weight update learning rate
+WEIGHT_LEARNING_RATE   = float(os.getenv("WEIGHT_LEARNING_RATE", 0.1))
+
+# Weight bounds (prevent runaway values)
+WEIGHT_MIN             = float(os.getenv("WEIGHT_MIN", -1.0))
+WEIGHT_MAX             = float(os.getenv("WEIGHT_MAX",  1.0))
+
+# Dwell normaliser: this many seconds of reading = delta of +1.0
+DWELL_NORMALISER       = float(os.getenv("DWELL_NORMALISER", 60.0))

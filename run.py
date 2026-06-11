@@ -166,5 +166,52 @@ def main():
         cmd_chroma_stats()
 
 
+# Add to imports at top:
+# (nothing new needed — lazy imports inside each function)
+
+def cmd_feedback(user_id: str, cluster_id: int, signal: str, dwell: float = 0.0):
+    """Manually send a feedback signal (useful for testing)."""
+    from personalization.feedback_handler import process_feedback
+    init_db()
+    result = process_feedback(user_id, cluster_id, signal, dwell_seconds=dwell)
+    print(f"\nFeedback processed:")
+    print(f"  User         : {result['user_id']}")
+    print(f"  Cluster      : {result['cluster_id']}")
+    print(f"  Signal       : {result['signal']}")
+    print(f"  Active weights: {result['weights_updated']}")
+
+
+def cmd_profile(user_id: str):
+    """Print a user's current preference weights."""
+    from storage.user_profiles import get_or_create_profile
+    init_db()
+    profile = get_or_create_profile(user_id)
+    weights = profile["weights"]
+    print(f"\n── Profile: {user_id} ────────────────────")
+    if not weights:
+        print("  No preferences recorded yet.")
+    else:
+        # Sort by absolute weight descending
+        for cid, w in sorted(weights.items(), key=lambda x: abs(x[1]), reverse=True):
+            bar = "▓" * int(abs(w) * 20)
+            sign = "+" if w >= 0 else "-"
+            print(f"  Cluster {cid:4d}  {sign}{abs(w):.3f}  {bar}")
+    print(f"\n  Updated: {profile['updated_at'][:19]}")
+
+
+def cmd_personalised_ask(query: str, user_id: str):
+    """Ask a question with personalised retrieval."""
+    from rag.chain import personalised_ask
+    init_db()
+    print(f"\nQ: {query}  [user: {user_id}]\n")
+    result = personalised_ask(query, user_id=user_id)
+    print(f"A: {result.answer}")
+    if result.sources:
+        print("\nSources (personalised ranking):")
+        for s in result.sources:
+            score  = s.get("personalised_score", s["similarity"])
+            weight = s.get("user_weight", 0.0)
+            print(f"  • [{score:.0%}] {s['label']}  (pref weight: {weight:.3f})")
+
 if __name__ == "__main__":
     main()

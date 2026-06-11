@@ -203,6 +203,42 @@ def ask(
         retrieved_count=retrieved_count,
     )
 
+def personalised_ask(
+    query: str,
+    user_id: str,
+    top_k: int = RAG_TOP_K,
+) -> RAGResult:
+    """
+    Full personalised RAG pipeline:
+    personalised_retrieve → generate → RAGResult.
+
+    Uses the user's cluster weight vector to bias results toward
+    topics they've interacted with positively.
+
+    Args:
+        query   : Natural-language question.
+        user_id : User identifier (string).
+        top_k   : Number of clusters to retrieve after re-ranking.
+
+    Returns:
+        RAGResult — same structure as ask(), with personalised sources.
+
+    Example:
+        result = personalised_ask("AI regulation news", user_id="alice")
+    """
+    from personalization.retriever import personalised_retrieve
+
+    logger.info("Personalised RAG ask: '%s'  user='%s'", query, user_id)
+
+    clusters = personalised_retrieve(query, user_id=user_id, top_k=top_k)
+    answer   = generate(clusters, query)
+
+    return RAGResult(
+        query=query,
+        answer=answer,
+        sources=clusters,
+        retrieved_count=len(clusters),
+    )
 
 # ── Interactive test helper ───────────────────────────────────────────────────
 

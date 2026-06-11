@@ -240,3 +240,12 @@ def clear_clusters() -> None:
     with get_connection() as conn:
         conn.execute("DELETE FROM clusters")
     logger.info("Clusters table cleared for re-clustering.")
+    
+    
+def init_db() -> None:
+    """Create all tables if they don't exist — articles, clusters, user profiles."""
+    # ... existing code unchanged ...
+
+    # Add this at the end of init_db():
+    from storage.user_profiles import init_user_tables
+    init_user_tables()

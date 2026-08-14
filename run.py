@@ -229,6 +229,9 @@ def main():
     group.add_argument("--show-clusters",
                        action="store_true",
                        help="Print all clusters with summaries")
+    group.add_argument("--evaluate",
+                       action="store_true",
+                       help="Run RAGAS evaluation on RAG performance")
 
     args = parser.parse_args()
 
@@ -259,6 +262,9 @@ def main():
         cmd_stats()
     elif args.show_clusters:
         cmd_show_clusters()
+    elif args.evaluate:
+        from evaluation.ragas_eval import run_ragas_evaluation
+        run_ragas_evaluation()
 
 
 if __name__ == "__main__":

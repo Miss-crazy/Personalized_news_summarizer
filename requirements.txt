@@ -8,3 +8,7 @@ hdbscan
 umap-learn
 chromadb
 apscheduler
+ragas
+datasets
+langchain-community
+pandas

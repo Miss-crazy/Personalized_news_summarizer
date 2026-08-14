@@ -116,9 +116,7 @@ The project consumes articles from a curated list of trusted domestic and intern
    - Generates 3–5 word topic labels and 3–4 sentence balanced executive summaries.
 5. **Adaptive Personalization Function**:
    - Scores candidates via linear interpolation:
-     $$\text{Score}_{\text{final}} = (1 - \alpha) \cdot \text{Score}_{\text{semantic}} + \alpha \cdot \text{Score}_{\text{user\_preference}}$$
-   - Normalizes and updates user preference vectors upon thumbs up ($+1.0$), thumbs down ($-1.0$), and reading dwell time ($+\text{dwell\_seconds} / 60$).
-
+   - Normalizes and updates user preference vectors upon thumbs up, thumbs down , and reading dwell time.
 ---
 
 ## ⚡ Performance Profile & Benchmarks
